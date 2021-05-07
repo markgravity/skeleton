@@ -1,6 +1,7 @@
 part of 'bone.dart';
 
-typedef BoneTransitionBuilder = Widget Function(Widget child, AnimationController controller);
+typedef BoneTransitionBuilder = Widget Function(
+    Widget child, AnimationController controller);
 
 class BoneTransition {
   const BoneTransition({
@@ -25,7 +26,8 @@ class BoneTransition {
   final Duration duration;
 
   /// Create a transition widget
-  Widget _build({required Widget child, required AnimationController controller}) {
+  Widget _build(
+      {required Widget child, required AnimationController controller}) {
     return builder(child, controller);
   }
 }

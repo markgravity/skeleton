@@ -14,9 +14,9 @@ class Bone extends StatefulWidget {
     required this.child,
     this.width = double.infinity,
     required this.height,
-    this.baseColor,
-    this.highlightColor,
-    this.borderRadius,
+    this.baseColor = const Color(0xFFE0E0E0),
+    this.highlightColor = const Color(0xFFF5F5F5),
+    this.borderRadius = const BorderRadius.all(Radius.circular(0)),
     this.transition,
     this.period = const Duration(milliseconds: 1500),
     this.direction = ShimmerDirection.ltr,
@@ -38,9 +38,9 @@ class Bone extends StatefulWidget {
     this.height = 30,
     this.spacing = 8,
     this.variants = const [1],
-    this.baseColor,
-    this.highlightColor,
-    this.borderRadius,
+    this.baseColor = const Color(0xFFE0E0E0),
+    this.highlightColor = const Color(0xFFF5F5F5),
+    this.borderRadius = const BorderRadius.all(Radius.circular(0)),
     this.transition,
     this.period = const Duration(milliseconds: 1500),
     this.direction = ShimmerDirection.ltr,
@@ -60,8 +60,8 @@ class Bone extends StatefulWidget {
         number = 1,
         spacing = 0,
         variants = [1],
-        baseColor = null,
-        highlightColor = null,
+        baseColor = const Color(0xFFE0E0E0),
+        highlightColor = const Color(0xFFF5F5F5),
         borderRadius = null,
         _isHiddenOnly = true,
         period = const Duration(milliseconds: 1500),
@@ -90,10 +90,10 @@ class Bone extends StatefulWidget {
   final List<double> variants;
 
   /// The background color of a bone
-  final Color? baseColor;
+  final Color baseColor;
 
   /// The shimmer color
-  final Color? highlightColor;
+  final Color highlightColor;
 
   /// The border radius of a bone
   final BorderRadiusGeometry? borderRadius;
@@ -118,7 +118,8 @@ class Bone extends StatefulWidget {
 }
 
 class _BoneState extends State<Bone> with SingleTickerProviderStateMixin {
-  late final BoneTransition transition = widget.transition ?? BoneTransition.fadeIn;
+  late final BoneTransition transition =
+      widget.transition ?? BoneTransition.fadeIn;
 
   /// It controls showing animation
   late final animationController = AnimationController(
@@ -148,15 +149,16 @@ class _BoneState extends State<Bone> with SingleTickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    if (widget._isHiddenOnly) return skeleton!.isShown ? SizedBox.shrink() : _createTransition();
+    if (widget._isHiddenOnly)
+      return skeleton!.isShown ? SizedBox.shrink() : _createTransition();
 
     return skeleton!.isShown
         ? Shimmer.fromColors(
-            baseColor: widget.baseColor ?? skeleton!.baseColor,
-            highlightColor: widget.highlightColor ?? skeleton!.highlightColor,
+            baseColor: skeleton!.baseColor ?? widget.baseColor,
+            highlightColor: skeleton!.highlightColor ?? widget.highlightColor,
             enabled: skeleton!.isShown,
-            period: widget.period,
-            direction: widget.direction,
+            period: skeleton!.period ?? widget.period,
+            direction: skeleton!.direction ?? widget.direction,
             child: _makeBones(),
           )
         : _createTransition();
@@ -167,7 +169,8 @@ class _BoneState extends State<Bone> with SingleTickerProviderStateMixin {
   /// it just returns [widget.child] without showing animation
   Widget _createTransition() {
     return isInitialed
-        ? transition._build(child: widget.child, controller: animationController)
+        ? transition._build(
+            child: widget.child, controller: animationController)
         : widget.child;
   }
 
@@ -175,7 +178,8 @@ class _BoneState extends State<Bone> with SingleTickerProviderStateMixin {
   Widget _makeBones() {
     final children = List<Widget>.empty(growable: true);
     for (var i = 0; i < widget.number; i++) {
-      if (i != 0) children.add(SizedBox(height: widget.spacing));
+      if (i != 0)
+        children.add(SizedBox(height: skeleton!.spacing ?? widget.spacing));
 
       children.add(_makeBone(i));
     }
@@ -188,14 +192,15 @@ class _BoneState extends State<Bone> with SingleTickerProviderStateMixin {
 
   /// Create a single bone
   Widget _makeBone(int index) {
-    final variant =
-        index < widget.variants.length - 1 ? widget.variants[index] : widget.variants.last;
+    final variant = index < widget.variants.length - 1
+        ? widget.variants[index]
+        : widget.variants.last;
 
     final line = Container(
       width: widget.width * variant,
-      height: widget.height,
+      height: skeleton!.height ?? widget.height,
       decoration: BoxDecoration(
-        borderRadius: widget.borderRadius ?? skeleton?.borderRadius,
+        borderRadius: skeleton?.borderRadius ?? widget.borderRadius,
         color: Colors.white,
       ),
     );

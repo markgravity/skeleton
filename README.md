@@ -8,7 +8,7 @@ It provides an elegant way to show skeleton animation.
 
 
 
-- ** Wrap on the top of the content with `Skeleton`**
+**Wrap on the top of the content with `Skeleton`**
 
 ```dart
 Skeleton(
@@ -19,7 +19,7 @@ Skeleton(
 
 
 
-- **Then, wrap the widget to show skeleton animation with `Bone`**
+**Then, wrap the widget to show skeleton animation with `Bone`**
 
 A single bone
 
