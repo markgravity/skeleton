@@ -31,7 +31,7 @@ class Skeleton extends InheritedWidget {
   final BorderRadiusGeometry? borderRadius;
 
   /// The default height of child bones
-  /// Only effect on [Bone.multiple]
+  /// Only effect to [Bone.multiple]
   final double? height;
 
   /// The default spacing between bones

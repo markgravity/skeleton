@@ -1,6 +1,6 @@
 name: skeletor
 description: It provides an elegant way to show skeleton animation.
-version: 0.0.2
+version: 0.0.3
 repository: https://github.com/markgravity/skeletor
 
 environment:

@@ -9,6 +9,10 @@ class BoneTransition {
     this.duration = const Duration(milliseconds: 600),
   });
 
+  static final none = BoneTransition(
+    builder: (child, controller) => child
+  );
+
   static final fadeIn = BoneTransition(
     builder: (child, controller) => FadeTransition(
       opacity: CurvedAnimation(
